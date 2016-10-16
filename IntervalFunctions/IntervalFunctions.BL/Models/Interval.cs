@@ -13,10 +13,10 @@ namespace IntervalFunctions.BL.Models
 
         public Interval()
         {
-            _start = -1d / 0d;
-            _end = 1d / 0d;
-            _hasStart = true;
-            _hasEnd = true;
+            _start = double.NegativeInfinity;
+            _end = double.PositiveInfinity;
+            _hasStart = false;
+            _hasEnd = false;
         }
 
         public Interval(double start = 0.0, double end = 0.0, bool hasStart = true, bool hasEnd = true)
@@ -37,13 +37,21 @@ namespace IntervalFunctions.BL.Models
         public bool HasStart
         {
             get { return _hasStart; }
-            set { SetProperty(ref _hasStart, value); }
+            set
+            {
+                if (double.IsInfinity(Start)) throw new ArgumentException("Interval cannot include infinity.");
+                SetProperty(ref _hasStart, value);
+            }
         }
 
         public bool HasEnd
         {
             get { return _hasEnd; }
-            set { SetProperty(ref _hasEnd, value); }
+            set
+            {
+                if (double.IsInfinity(End)) throw new ArgumentException("Interval cannot include infinity.");
+                SetProperty(ref _hasEnd, value);
+            }
         }
 
         public double Start
@@ -51,7 +59,8 @@ namespace IntervalFunctions.BL.Models
             get { return _start; }
             set
             {
-                if (value < Start) throw new ArgumentException("The value of Start ppoperty have to be less then End");
+                if (value < Start) throw new ArgumentException("The value of Start property have to be less then End");
+                if (double.IsInfinity(value)) HasStart = false;
                 SetProperty(ref _start, value);
             }
         }
@@ -61,7 +70,8 @@ namespace IntervalFunctions.BL.Models
             get { return _end; }
             set
             {
-                if (value < Start) throw new ArgumentException("The value of End ppoperty have to be greater then Start");
+                if (value < Start) throw new ArgumentException("The value of End property have to be greater then Start");
+                if (double.IsInfinity(value)) HasStart = false;
                 SetProperty(ref _end, value);
             }
         }
@@ -95,7 +105,17 @@ namespace IntervalFunctions.BL.Models
             var divisor = new Interval(1.0 / right.End, 1.0 / right.Start);
             return Multiplication(left, divisor);
         }
+        public static Interval Intersection(Interval left, Interval right)
+        {
+            if (left.End < right.Start || right.End < left.Start) return new Interval(0.0, 0.0, false, false);
 
+            return new Interval(
+                Max(left.Start, right.Start),
+                Min(left.End, right.End),
+                left.Start > right.Start ? left.HasStart : right.HasStart,
+                left.End < right.End ? left.HasEnd : right.HasEnd
+            );
+        }
         public static Interval operator +(Interval left, Interval right)
         {
             return Addition(left, right);
@@ -115,6 +135,48 @@ namespace IntervalFunctions.BL.Models
         public static Interval operator -(Interval value)
         {
             return new Interval(-value.End, -value.Start, value.HasStart, value.HasEnd);
+        }
+        public static bool operator ==(Interval left, Interval right)
+        {
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null)) return false;
+            return
+                left.HasStart == right.HasStart &&
+                left.HasEnd == right.HasEnd &&
+                left.Start == right.Start &&
+                left.End == right.End;
+        }
+        public static bool operator !=(Interval left, Interval right)
+        {
+            return !(left == right);
+        }
+        public static explicit operator Interval(double x)
+        {
+            if (double.IsInfinity(x)) return new Interval(x, x, false, false);
+            return new Interval(x, x, true, true);
+        }
+
+        public override bool Equals(object obj)
+        {
+            var x = obj as Interval;
+            if (x == null) return false;
+            return x == this;
+        }
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+        public override string ToString()
+        {
+            if (double.IsInfinity(Start) && double.IsInfinity(End)) return $"({Start}; {End})";
+            else
+            if (double.IsInfinity(End)) return HasStart ? $"[{Start}; {End})" : $"({Start}; {End})";
+            else
+            if (double.IsInfinity(Start)) return HasEnd ? $"({Start}; {End}]" : $"({Start}; {End})";
+
+            return HasStart && HasEnd ? $"[{Start}; {End}]"
+                : HasEnd && !HasStart ? $"({Start}; {End}]"
+                : !HasEnd && HasStart ? $"[{Start}; {End})"
+                : $"({Start}; {End})";
         }
     }
 }

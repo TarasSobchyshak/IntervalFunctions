@@ -1,0 +1,29 @@
+﻿<Window x:Class="IntervalFunctions.App.Views.IntervalFunctionView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:IntervalFunctions.App.Views"
+        xmlns:controls="clr-namespace:IntervalFunctions.App.Controls"
+        xmlns:vm="clr-namespace:IntervalFunctions.App.ViewModels"
+        mc:Ignorable="d"
+        Title="Interval Functions" 
+        Height="300" 
+        Width="300">
+    
+    <Window.DataContext>
+        <vm:IntervalFunctionsViewModel/>
+    </Window.DataContext>
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <controls:Menu MenuItems="{Binding MenuItems}"/>
+
+        <TextBlock Text="{Binding Teststring}"/>
+
+    </Grid>
+</Window>
