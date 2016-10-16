@@ -38,6 +38,26 @@ namespace IntervalFunctions.App.ViewModels
             Teststring += $"{IntervalA} i {IntervalB} = {Interval.Intersection(IntervalA, IntervalB)}\n";
 
 
+
+            IntervalA = new Interval(1, 3, false, false);
+            IntervalB = new Interval(3, 5, true, true);
+            Teststring += $"{IntervalA} i {IntervalB} = {Interval.Intersection(IntervalA, IntervalB)}\n";
+
+
+            IntervalA = new Interval(1, 3, false, true);
+            IntervalB = new Interval(3, 5, true, true);
+            Teststring += $"{IntervalA} i {IntervalB} = {Interval.Intersection(IntervalA, IntervalB)}\n";
+
+            IntervalA = new Interval(1, 3, false, false);
+            IntervalB = new Interval(2, 5, true, true);
+            Teststring += $"{IntervalA} i {IntervalB} = {Interval.Intersection(IntervalA, IntervalB)}\n";
+
+            IntervalA = new Interval(1, 3, false, true);
+            IntervalB = new Interval(2, 5, false, true);
+            Teststring += $"{IntervalA} i {IntervalB} = {Interval.Intersection(IntervalA, IntervalB)}\n";
+
+
+
             Teststring += $"{(Interval)5}\n";
             Teststring += $"{(Interval)double.PositiveInfinity}\n";
             Teststring += $"{(Interval)double.NegativeInfinity}\n";

@@ -107,8 +107,17 @@ namespace IntervalFunctions.BL.Models
         }
         public static Interval Intersection(Interval left, Interval right)
         {
-            if (left.End < right.Start || right.End < left.Start) return new Interval(0.0, 0.0, false, false);
-
+            if (left.End < right.Start || right.End < left.Start) return new Interval(0, 0, false, false);
+            if (left.End == right.Start)
+            {
+                if (left.HasEnd ^ right.HasStart)
+                    return new Interval(0, 0, false, false);
+            }
+            else if (right.End == left.Start)
+            {
+                if (right.HasEnd ^ left.HasStart)
+                    return new Interval(0, 0, false, false);
+            }
             return new Interval(
                 Max(left.Start, right.Start),
                 Min(left.End, right.End),
