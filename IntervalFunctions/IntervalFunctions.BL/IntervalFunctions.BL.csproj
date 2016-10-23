@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Algorithms\DichotomyMethod.cs" />
     <Compile Include="Models\Interval.cs" />
     <Compile Include="Models\MathExtension.cs" />
     <Compile Include="Models\ObservableObject.cs" />

@@ -76,6 +76,9 @@ namespace IntervalFunctions.BL.Models
             }
         }
 
+        public double Middle => (Start + End) / 2;
+        public double Width => End - Start;
+
         public bool IsPoint => (HasStart && HasEnd && Start == End);
         public bool Contains(double v) => (HasStart && v >= Start && HasEnd && v <= End) || (v > Start && v < End);
 
