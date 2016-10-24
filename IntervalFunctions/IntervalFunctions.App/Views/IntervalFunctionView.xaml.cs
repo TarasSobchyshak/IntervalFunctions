@@ -42,8 +42,8 @@ namespace IntervalFunctions.App.Views
                 vm.PlotModel.Series.Add(
                     new FunctionSeries(
                         f,
-                        vm.Interval.Start - 5,
-                        vm.Interval.End + 5,
+                        vm.Interval.Start,
+                        vm.Interval.End,
                         0.1,
                         $"f = (x - {a})(x - {b})(x - {c})")
                     );
@@ -55,7 +55,7 @@ namespace IntervalFunctions.App.Views
                 vm.Solutions = new ObservableCollection<Interval>(dm.Solve());
 
                 string str = "";
-                if (dm.Count == 0)
+                if (dm.Count <= 1 && vm.Solutions.Count == 0)
                     str += "Коренів на вказаному проміжку немає. ";
                 textBlockCount.Text = str + $"К-ість ітерацій {dm.Count}";
             }
