@@ -33,9 +33,9 @@ namespace IntervalFunctions.BL.Algorithms
         }
         private void Dychotomy(Interval a, ref int k)
         {
-            if (!F(a).Contains(0.0)) return;
-
             ++k;
+
+            if (!F(a).Contains(0.0)) return;
 
             if (a.Width <= eps) Solutions.Add(a);
             else

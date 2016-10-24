@@ -6,9 +6,10 @@
         xmlns:local="clr-namespace:IntervalFunctions.App.Views"
         xmlns:controls="clr-namespace:IntervalFunctions.App.Controls"
         xmlns:vm="clr-namespace:IntervalFunctions.App.ViewModels"
+        xmlns:oxy="http://oxyplot.org/wpf"
         mc:Ignorable="d"
         Title="Interval Functions" 
-        Height="200" 
+        Height="400" 
         Width="500">
 
     <Window.DataContext>
@@ -21,43 +22,59 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <controls:Menu MenuItems="{Binding MenuItems}" Grid.Column="0"/>
-
-        <Grid Grid.Column="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
+        <StackPanel Orientation="Vertical" Margin="10">
             <StackPanel Orientation="Horizontal" Margin="5">
-                <StackPanel Orientation="Horizontal" Margin="15">
-                    <TextBlock Text="Input a:" Margin="0 0 5 0" VerticalAlignment="Center"/>
-                    <TextBox x:Name="textBoxA" Height="20" Width="100" VerticalAlignment="Center"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="15">
-                    <TextBlock Text="Input b:" Margin="0 0 5 0" VerticalAlignment="Center"/>
-                    <TextBox x:Name="textBoxB"  Height="20" Width="100"  VerticalAlignment="Center"/>
-                </StackPanel>
-                <Button Margin="10" Content="Solve" Height="20" Width="60" Click="Button_Click" VerticalAlignment="Center"/>
+                <TextBlock Text="Введіть L:" Margin="0 0 5 0" VerticalAlignment="Center"/>
+                <TextBox x:Name="textBoxL" Height="20" Width="100" VerticalAlignment="Center"/>
             </StackPanel>
-
-            <StackPanel Grid.Row="1" Margin="5">
-
-                <ItemsControl ItemsSource="{Binding Solutions, Mode=TwoWay}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding Instance, StringFormat='{}Interval: {0}'}" Margin="10"/>
-                                <TextBlock Text="{Binding Middle, StringFormat='{}Root: {0:0.0000000}'}" Margin="10"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-
-                <TextBlock Margin="10" x:Name="textBlockCount"/>
-
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <TextBlock Text="Введіть R:" Margin="0 0 5 0" VerticalAlignment="Center"/>
+                <TextBox x:Name="textBoxR"  Height="20" Width="100"  VerticalAlignment="Center"/>
             </StackPanel>
+            <Button Margin="10" Content="Solve" Height="20" Width="60" Click="Button_Click" VerticalAlignment="Center"/>
+        </StackPanel>
+
+        <StackPanel  Grid.Row="1" Orientation="Vertical" Margin="10">
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <TextBlock Text="Введіть a:" Margin="5" VerticalAlignment="Center"/>
+                <TextBox x:Name="textBoxA" Height="20" Width="80" VerticalAlignment="Center"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <TextBlock Text="Введіть b:" Margin="5" VerticalAlignment="Center"/>
+                <TextBox x:Name="textBoxB" Height="20" Width="80" VerticalAlignment="Center"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <TextBlock Text="Введіть c:" Margin="5" VerticalAlignment="Center"/>
+                <TextBox x:Name="textBoxC" Height="20" Width="80" VerticalAlignment="Center"/>
+            </StackPanel>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Margin="5">
+
+            <ItemsControl ItemsSource="{Binding Solutions, Mode=TwoWay}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="{Binding Middle, StringFormat='{}Корінь: {0:0.0000000}'}" Margin="10 0 0 10"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <TextBlock Margin="10" x:Name="textBlockCount"/>
+
+        </StackPanel>
+
+        <Grid Grid.Column="1" Grid.RowSpan="3">
+            <oxy:PlotView Model="{Binding PlotModel}" Background="LightGray"/>
         </Grid>
 
     </Grid>
+
 </Window>
