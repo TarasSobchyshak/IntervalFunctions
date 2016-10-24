@@ -1,67 +1,19 @@
 ﻿using IntervalFunctions.App.Models;
 using IntervalFunctions.BL.Models;
-using System;
 using System.Collections.ObjectModel;
-using System.Windows;
 
 namespace IntervalFunctions.App.ViewModels
 {
     public class IntervalFunctionsViewModel : ObservableObject
     {
         private ObservableCollection<MenuItem> _menuItems;
-        private Interval _intervalA;
-        private Interval _intervalB;
-        private string teststring;
+        private ObservableCollection<Interval> _solutions;
+        private Interval _interval;
 
         public IntervalFunctionsViewModel()
         {
             MenuItems = new ObservableCollection<MenuItem>();
-            Teststring = "";
-
-            IntervalA = new Interval();
-            IntervalB = new Interval(double.NegativeInfinity, double.PositiveInfinity);
-            Teststring += $"{IntervalA} i {IntervalB} = {Interval.Intersection(IntervalA, IntervalB)}\n";
-
-            IntervalA = new Interval(double.PositiveInfinity, 3);
-            IntervalB = new Interval(-2, 8);
-            Teststring += $"{IntervalA} i {IntervalB} = {Interval.Intersection(IntervalA, IntervalB)}\n";
-            IntervalA = new Interval(double.NegativeInfinity);
-            IntervalB = new Interval(-6, 3);
-
-            Teststring += $"{IntervalA} i {IntervalB} = {Interval.Intersection(IntervalA, IntervalB)}\n";
-            IntervalA = new Interval(double.PositiveInfinity, 3);
-            IntervalB = new Interval(-2, 8, false, false);
-            Teststring += $"{IntervalA} i {IntervalB} = {Interval.Intersection(IntervalA, IntervalB)}\n";
-
-            IntervalA = new Interval(double.NegativeInfinity);
-            IntervalB = new Interval(-6, 3, false, false);
-            Teststring += $"{IntervalA} i {IntervalB} = {Interval.Intersection(IntervalA, IntervalB)}\n";
-
-
-
-            IntervalA = new Interval(1, 3, false, false);
-            IntervalB = new Interval(3, 5, true, true);
-            Teststring += $"{IntervalA} i {IntervalB} = {Interval.Intersection(IntervalA, IntervalB)}\n";
-
-
-            IntervalA = new Interval(1, 3, false, true);
-            IntervalB = new Interval(3, 5, true, true);
-            Teststring += $"{IntervalA} i {IntervalB} = {Interval.Intersection(IntervalA, IntervalB)}\n";
-
-            IntervalA = new Interval(1, 3, false, false);
-            IntervalB = new Interval(2, 5, true, true);
-            Teststring += $"{IntervalA} i {IntervalB} = {Interval.Intersection(IntervalA, IntervalB)}\n";
-
-            IntervalA = new Interval(1, 3, false, true);
-            IntervalB = new Interval(2, 5, false, true);
-            Teststring += $"{IntervalA} i {IntervalB} = {Interval.Intersection(IntervalA, IntervalB)}\n";
-
-
-
-            Teststring += $"{(Interval)5}\n";
-            Teststring += $"{(Interval)double.PositiveInfinity}\n";
-            Teststring += $"{(Interval)double.NegativeInfinity}\n";
-            Teststring += $"{(Interval)0}\n";
+            Solutions = new ObservableCollection<Interval>();
         }
 
         public ObservableCollection<MenuItem> MenuItems
@@ -70,22 +22,16 @@ namespace IntervalFunctions.App.ViewModels
             set { SetProperty(ref _menuItems, value); }
         }
 
-        public Interval IntervalA
+        public Interval Interval
         {
-            get { return _intervalA; }
-            set { SetProperty(ref _intervalA, value); }
+            get { return _interval; }
+            set { SetProperty(ref _interval, value); }
         }
 
-        public Interval IntervalB
+        public ObservableCollection<Interval> Solutions
         {
-            get { return _intervalB; }
-            set { SetProperty(ref _intervalB, value); }
-        }
-
-        public string Teststring
-        {
-            get { return teststring; }
-            set { SetProperty(ref teststring, value); }
+            get { return _solutions; }
+            set { SetProperty(ref _solutions, value); }
         }
     }
 }

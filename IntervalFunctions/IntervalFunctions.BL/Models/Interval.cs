@@ -76,6 +76,11 @@ namespace IntervalFunctions.BL.Models
             }
         }
 
+        public Interval Instance
+        {
+            get { return this; }
+        }
+
         public double Middle => (Start + End) / 2;
         public double Width => End - Start;
 
@@ -93,7 +98,7 @@ namespace IntervalFunctions.BL.Models
         }
         public static Interval Subtraction(Interval left, Interval right)
         {
-            return Addition(left, -right);
+            return new Interval(left.Start - right.End, left.End - right.Start, left.HasStart && right.HasEnd, left.HasEnd && right.HasStart); 
         }
         public static Interval Multiplication(Interval left, Interval right)
         {

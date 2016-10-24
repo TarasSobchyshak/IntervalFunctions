@@ -17,6 +17,7 @@ namespace IntervalFunctions.BL.Algorithms
         {
             F = f;
             X = x;
+            Solutions = new List<Interval>();
         }
 
         public List<Interval> Solve()

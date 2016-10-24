@@ -8,22 +8,56 @@
         xmlns:vm="clr-namespace:IntervalFunctions.App.ViewModels"
         mc:Ignorable="d"
         Title="Interval Functions" 
-        Height="300" 
-        Width="300">
-    
+        Height="200" 
+        Width="500">
+
     <Window.DataContext>
         <vm:IntervalFunctionsViewModel/>
     </Window.DataContext>
-    
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <controls:Menu MenuItems="{Binding MenuItems}"/>
+        <controls:Menu MenuItems="{Binding MenuItems}" Grid.Column="0"/>
 
-        <TextBlock Text="{Binding Teststring}"/>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <StackPanel Orientation="Horizontal" Margin="15">
+                    <TextBlock Text="Input a:" Margin="0 0 5 0" VerticalAlignment="Center"/>
+                    <TextBox x:Name="textBoxA" Height="20" Width="100" VerticalAlignment="Center"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="15">
+                    <TextBlock Text="Input b:" Margin="0 0 5 0" VerticalAlignment="Center"/>
+                    <TextBox x:Name="textBoxB"  Height="20" Width="100"  VerticalAlignment="Center"/>
+                </StackPanel>
+                <Button Margin="10" Content="Solve" Height="20" Width="60" Click="Button_Click" VerticalAlignment="Center"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="1" Margin="5">
+
+                <ItemsControl ItemsSource="{Binding Solutions, Mode=TwoWay}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Instance, StringFormat='{}Interval: {0}'}" Margin="10"/>
+                                <TextBlock Text="{Binding Middle, StringFormat='{}Root: {0:0.0000000}'}" Margin="10"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <TextBlock Margin="10" x:Name="textBlockCount"/>
+
+            </StackPanel>
+        </Grid>
 
     </Grid>
 </Window>
