@@ -59,7 +59,7 @@ namespace IntervalFunctions.BL.Models
             get { return _start; }
             set
             {
-                if (value < Start) throw new ArgumentException("The value of Start property have to be less then End");
+                if (value < Start) throw new ArgumentException("The value of Start property has to be less then End");
                 if (double.IsInfinity(value)) HasStart = false;
                 SetProperty(ref _start, value);
             }
@@ -70,7 +70,7 @@ namespace IntervalFunctions.BL.Models
             get { return _end; }
             set
             {
-                if (value < Start) throw new ArgumentException("The value of End property have to be greater then Start");
+                if (value < Start) throw new ArgumentException("The value of End property has to be greater then Start");
                 if (double.IsInfinity(value)) HasStart = false;
                 SetProperty(ref _end, value);
             }
@@ -147,6 +147,38 @@ namespace IntervalFunctions.BL.Models
         public static Interval operator -(Interval value)
         {
             return new Interval(-value.End, -value.Start, value.HasStart, value.HasEnd);
+        }
+        public static Interval operator +(Interval left, double right)
+        {
+            return Addition(left, new Interval(right, right));
+        }
+        public static Interval operator -(Interval left, double right)
+        {
+            return Subtraction(left, new Interval(right, right));
+        }
+        public static Interval operator *(Interval left, double right)
+        {
+            return Multiplication(left, new Interval(right, right));
+        }
+        public static Interval operator /(Interval left, double right)
+        {
+            return Division(left, new Interval(right, right));
+        }
+        public static Interval operator +(double left, Interval right)
+        {
+            return Addition(new Interval(left, left), right);
+        }
+        public static Interval operator -(double left, Interval right)
+        {
+            return Subtraction(new Interval(left, left), right);
+        }
+        public static Interval operator *(double left, Interval right)
+        {
+            return Multiplication(new Interval(left, left), right);
+        }
+        public static Interval operator /(double left, Interval right)
+        {
+            return Division(new Interval(left, left), right);
         }
         public static bool operator ==(Interval left, Interval right)
         {
