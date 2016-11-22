@@ -10,7 +10,7 @@ namespace IntervalFunctions.BL.Algorithms
         public Interval X { get; private set; }
         public List<Interval> Solutions { get; private set; }
 
-        private double eps = 1e-6;
+        private double eps = 0.1;
         public int Count { get; private set; }
 
         public DichotomyMethod(Interval x, Func<Interval, Interval> f)
@@ -37,11 +37,21 @@ namespace IntervalFunctions.BL.Algorithms
 
             if (!F(a).Contains(0.0)) return;
 
-            if (a.Width <= eps) Solutions.Add(a);
+            var temp = new Interval(a.Middle, a.Middle);
+            if (F(temp).Contains(0.0))
+            {
+                Solutions.Add(temp);
+                Dychotomy(new Interval(a.Start, a.Middle - eps), ref k);
+                Dychotomy(new Interval(a.Middle + eps, a.End), ref k);
+            }
             else
             {
-                Dychotomy(new Interval(a.Start, a.Middle), ref k);
-                Dychotomy(new Interval(a.Middle, a.End), ref k);
+                if (a.Width <= eps) Solutions.Add(a);
+                else
+                {
+                    Dychotomy(new Interval(a.Start, a.Middle), ref k);
+                    Dychotomy(new Interval(a.Middle, a.End), ref k);
+                }
             }
         }
     }
