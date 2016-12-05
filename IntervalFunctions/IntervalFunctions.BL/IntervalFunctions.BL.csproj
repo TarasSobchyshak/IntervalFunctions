@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -44,6 +45,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Algorithms\HansenMethod.cs" />
+    <Compile Include="Algorithms\MooreMethod.cs" />
+    <Compile Include="Algorithms\KravchykMethod.cs" />
     <Compile Include="Algorithms\EquationSystem.cs" />
     <Compile Include="Algorithms\DichotomyMethod.cs" />
     <Compile Include="Models\Interval.cs" />

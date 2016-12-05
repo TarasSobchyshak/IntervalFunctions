@@ -39,7 +39,7 @@ namespace IntervalFunctions.BL.Models
             get { return _hasStart; }
             set
             {
-                if (double.IsInfinity(Start)) throw new ArgumentException("Interval cannot include infinity.");
+                if (double.IsInfinity(Start) && value) throw new ArgumentException("Interval cannot include infinity.");
                 SetProperty(ref _hasStart, value);
             }
         }
@@ -49,7 +49,7 @@ namespace IntervalFunctions.BL.Models
             get { return _hasEnd; }
             set
             {
-                if (double.IsInfinity(End)) throw new ArgumentException("Interval cannot include infinity.");
+                if (double.IsInfinity(End) && value) throw new ArgumentException("Interval cannot include infinity.");
                 SetProperty(ref _hasEnd, value);
             }
         }
@@ -59,7 +59,7 @@ namespace IntervalFunctions.BL.Models
             get { return _start; }
             set
             {
-                if (value < Start) throw new ArgumentException("The value of Start property has to be less then End");
+                if (value > End) throw new ArgumentException("The value of Start property has to be less then End");
                 if (double.IsInfinity(value)) HasStart = false;
                 SetProperty(ref _start, value);
             }
@@ -98,7 +98,7 @@ namespace IntervalFunctions.BL.Models
         }
         public static Interval Subtraction(Interval left, Interval right)
         {
-            return new Interval(left.Start - right.End, left.End - right.Start, left.HasStart && right.HasEnd, left.HasEnd && right.HasStart); 
+            return new Interval(left.Start - right.End, left.End - right.Start, left.HasStart && right.HasEnd, left.HasEnd && right.HasStart);
         }
         public static Interval Multiplication(Interval left, Interval right)
         {
@@ -112,6 +112,26 @@ namespace IntervalFunctions.BL.Models
             if (right.Contains(0.0)) throw new ArgumentException("Divisor interval cannot contain zero.");
             var divisor = new Interval(1.0 / right.End, 1.0 / right.Start);
             return Multiplication(left, divisor);
+        }
+        public static Interval[] Division(double left, Interval right)
+        {
+            Interval[] twoInterval = new Interval[2] { new Interval(), new Interval() };
+
+            if (left > 0)
+            {
+                twoInterval[0].Start = double.NegativeInfinity;
+                twoInterval[0].End = left / right.Start;
+                twoInterval[1].Start = left / right.End;
+                twoInterval[1].End = double.PositiveInfinity;
+            }
+            else
+            {
+                twoInterval[0].Start = double.NegativeInfinity;
+                twoInterval[0].End = left / right.End;
+                twoInterval[1].Start = left / right.Start;
+                twoInterval[1].End = double.PositiveInfinity;
+            }
+            return twoInterval;
         }
         public static Interval Intersection(Interval left, Interval right)
         {
